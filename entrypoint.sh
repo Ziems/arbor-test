@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+# Ensure uv is in PATH
+export PATH="/root/.cargo/bin:$PATH"
+
 # Define directories for the repositories
 ARBOR_DIR="/app/repos/arbor"
 DSPY_DIR="/app/repos/dspy"
