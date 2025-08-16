@@ -46,5 +46,32 @@ uv pip install --system datasets==3.6.0
 # Change back to app directory
 cd /app
 
-# Execute the command passed to the container
-exec "$@"
+# Check if we need to start arbor server
+if [[ "$START_ARBOR" == "true" ]]; then
+    echo "Starting Arbor server..."
+    cd "$ARBOR_DIR"
+    
+    # Use custom config if provided
+    if [[ -n "$ARBOR_CONFIG" && -f "$ARBOR_CONFIG" ]]; then
+        echo "Using Arbor config: $ARBOR_CONFIG"
+        python -m arbor.server -port 7453 --config "$ARBOR_CONFIG" &
+    else
+        python -m arbor.server --port 7453 &
+    fi
+    ARBOR_PID=$!
+    
+    # Wait a bit for server to start
+    sleep 5
+    
+    # Change back to app directory
+    cd /app
+    
+    # Execute the command
+    "$@"
+    
+    # Clean up arbor server
+    kill $ARBOR_PID 2>/dev/null || true
+else
+    # Execute the command passed to the container
+    exec "$@"
+fi

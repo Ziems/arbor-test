@@ -27,6 +27,19 @@ docker run -v $(pwd)/repos:/app/repos arbor-test
 docker run -v $(pwd)/repos:/app/repos arbor-test python tests/test_banking_classification.py
 ```
 
+**Run with Arbor server:**
+```bash
+docker run -e START_ARBOR=true -v $(pwd)/repos:/app/repos arbor-test python tests/test_banking_classification.py
+```
+
+**Run with custom Arbor config:**
+```bash
+docker run -e START_ARBOR=true -e ARBOR_CONFIG=/app/config.yaml \
+  -v $(pwd)/repos:/app/repos \
+  -v $(pwd)/arbor-config.yaml:/app/config.yaml \
+  arbor-test python tests/test_banking_classification.py
+```
+
 **Update libraries:**
 ```bash
 cd repos/arbor && git pull
