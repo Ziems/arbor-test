@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
 
-# Ensure uv is in PATH
-export PATH="/root/.cargo/bin:$PATH"
+# Check if uv is available
+which uv || echo "uv not found in PATH"
 
 # Define directories for the repositories
 ARBOR_DIR="/app/repos/arbor"
