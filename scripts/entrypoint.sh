@@ -60,8 +60,20 @@ if [[ "$START_ARBOR" == "true" ]]; then
     fi
     ARBOR_PID=$!
     
-    # Wait a bit for server to start
-    sleep 5
+    # Wait for arbor server to be ready
+    echo "Waiting for Arbor server to start..."
+    for i in {1..10}; do
+        if curl -s http://localhost:7453/health > /dev/null 2>&1; then
+            echo "Arbor server is ready!"
+            break
+        fi
+        if [ $i -eq 30 ]; then
+            echo "Timeout waiting for Arbor server"
+            kill $ARBOR_PID 2>/dev/null || true
+            exit 1
+        fi
+        sleep 5
+    done
     
     # Change back to app directory
     cd /app
