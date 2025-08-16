@@ -5,10 +5,6 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
-    "arbor-ai",
-    "dspy",
+    "arbor @ {path = \"./arbor\", develop = true }",
+    "dspy @ {path = \"./dspy\", develop = true }",
 ]
-
-[tool.uv.sources]
-arbor-ai = { git = "https://github.com/Ziems/arbor.git", rev = "main" }
-dspy = { git = "https://github.com/stanfordnlp/dspy.git", rev = "main" }
