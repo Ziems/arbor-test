@@ -1,0 +1,14 @@
+[project]
+name = "arbor-test"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "arbor-ai",
+    "dspy",
+]
+
+[tool.uv.sources]
+arbor-ai = { git = "https://github.com/Ziems/arbor.git", rev = "main" }
+dspy = { git = "https://github.com/stanfordnlp/dspy.git", rev = "main" }
