@@ -4,6 +4,10 @@ set -e
 # Check if uv is available
 which uv || echo "uv not found in PATH"
 
+# Fix git ownership issues with mounted volumes
+git config --global --add safe.directory /app/repos/arbor
+git config --global --add safe.directory /app/repos/dspy
+
 # Define directories for the repositories
 ARBOR_DIR="/app/repos/arbor"
 DSPY_DIR="/app/repos/dspy"
