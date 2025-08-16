@@ -17,9 +17,6 @@ WORKDIR /app
 # Copy the project files
 COPY . .
 
-# Install any additional requirements if they exist
-RUN if [ -f requirements.txt ]; then uv pip install --system -r requirements.txt; fi
-
 # Copy entrypoint script
 COPY scripts/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh

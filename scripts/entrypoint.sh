@@ -38,6 +38,7 @@ uv pip install --system "$ARBOR_DIR"
 echo "Installing dspy..."
 uv pip install --system "$DSPY_DIR"
 
+uv pip install --system datasets==3.6.0
 # Change back to app directory
 cd /app
 
