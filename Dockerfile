@@ -1,15 +1,27 @@
-FROM python:3.11-slim
+FROM nvidia/cuda:12.8.1-cudnn-devel-ubuntu24.04
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
-# Install git and curl
+# Set environment variables
+ENV PYTHONUNBUFFERED=1
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Set environment variables
+ENV PYTHONUNBUFFERED=1
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install system dependencies
 RUN apt-get update && apt-get install -y \
+    python3 \
+    python3-dev \
+    python3-pip \
+    python3-venv \
     git \
     curl \
+    build-essential \
     && rm -rf /var/lib/apt/lists/*
 
-# Install uv
-RUN curl -LsSf https://astral.sh/uv/install.sh | sh
-ENV PATH="/root/.local/bin:/root/.cargo/bin:$PATH"
-RUN mv /root/.cargo/bin/uv /usr/local/bin/uv || mv /root/.local/bin/uv /usr/local/bin/uv || echo "uv location check"
+# Set python3 as default python
+RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 1
 
 # Set working directory
 WORKDIR /app
@@ -23,4 +35,4 @@ RUN chmod +x /entrypoint.sh
 
 # Default command
 ENTRYPOINT ["/entrypoint.sh"]
-CMD ["python", "tests/test_imports.py"]
+CMD ["uv", "run", "tests/test_imports.py"]
