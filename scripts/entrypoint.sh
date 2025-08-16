@@ -35,14 +35,11 @@ else
     git clone https://github.com/stanfordnlp/dspy.git "$DSPY_DIR"
 fi
 
-# Install the packages via uv
-echo "Installing arbor..."
-uv pip install --system "$ARBOR_DIR"
-
-echo "Installing dspy..."
-uv pip install --system "$DSPY_DIR"
-
-uv pip install --system datasets==3.6.0
+# Add repositories as dependencies and sync
+echo "Installing arbor and dspy..."
+uv add --editable "$ARBOR_DIR"
+uv add --editable "$DSPY_DIR"
+uv add "datasets==3.6.0"
 # Change back to app directory
 cd /app
 
