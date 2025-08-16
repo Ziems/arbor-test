@@ -9,13 +9,13 @@ kwargs = dict(fields=("text", "label"), input_keys=("text",), split="train", tru
 TOP_CLASSES = CLASSES[:]
 
 raw_data = [
-    dspy.Example(x, label=CLASSES[x.label]).with_input("text")
-    for x in DataLoader().from_huggingface("PolyAI/banking77", **kwargs)
+    dspy.Example(x, label=CLASSES[x.label]).with_inputs("text")
+    for x in DataLoader().from_huggingface(dataset_name="PolyAI/banking77", **kwargs)
     if CLASSES[x.label] in TOP_CLASSES
 ][:2000]
 
 random.Random(42).shuffle(raw_data)
-print(len(TOP_CLASSES))
+print(len(TOP_CLASSES), TOP_CLASSES)
 trainset = raw_data[:400]
 valset = raw_data[400:450]
 assert len(valset) > 30
@@ -34,7 +34,7 @@ student_lm_name = "Qwen/Qwen2.5-1.5B-Instruct"
 #student_lm_name = "Qwen/Qwen2.5-7B-Instruct"
 #student_lm_name = "Qwen/Qwen2.5-14B-Instruct"
 #student_lm_name = "Qwen/Qwen2.5-32B-Instruct"
-student_lm = dspy.lm(model=f"openai/arbor:{student_lm_name}", provider=provider, temperature=0.7, api_base=arbor_api_base, api_key=api_key)
+student_lm = dspy.LM(model=f"openai/arbor:{student_lm_name}", provider=provider, temperature=0.7, api_base=arbor_api_base, api_key=api_key)
 
 student_classify = classify.deepcopy()
 student_classify.set_lm(student_lm)
@@ -61,7 +61,7 @@ compiler = GRPO(
     metric=metric,
     multitask=True,
     num_dspy_examples_per_grpo_step=4,
-    num_rollouts_per_dspy_example=4,
+    num_rollouts_per_dspy_step=4,
     exclude_demos=True,
     num_train_steps=50,
     num_threads=8,
