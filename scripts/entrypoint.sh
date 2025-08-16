@@ -54,9 +54,9 @@ if [[ "$START_ARBOR" == "true" ]]; then
     # Use custom config if provided
     if [[ -n "$ARBOR_CONFIG" && -f "$ARBOR_CONFIG" ]]; then
         echo "Using Arbor config: $ARBOR_CONFIG"
-        python -m arbor.server -port 7453 --config "$ARBOR_CONFIG" &
+        uv run arbor serve -port 7453 --config "$ARBOR_CONFIG" &
     else
-        python -m arbor.server --port 7453 &
+        uv run arbor serve --port 7453 &
     fi
     ARBOR_PID=$!
     
