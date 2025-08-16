@@ -43,6 +43,12 @@ uv add "datasets==3.6.0"
 # Change back to app directory
 cd /app
 
+# Clean up any existing venv to avoid Python version conflicts
+if [ -d ".venv" ]; then
+    echo "Removing existing virtual environment..."
+    rm -rf .venv
+fi
+
 # Check if we need to start arbor server
 if [[ "$START_ARBOR" == "true" ]]; then
     echo "Starting Arbor server..."
