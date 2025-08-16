@@ -26,4 +26,4 @@ RUN chmod +x /entrypoint.sh
 
 # Default command
 ENTRYPOINT ["/entrypoint.sh"]
-CMD ["python", "test_script.py"]
+CMD ["python", "banking_test.py"]
