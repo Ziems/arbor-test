@@ -21,9 +21,9 @@ COPY . .
 RUN if [ -f requirements.txt ]; then uv pip install --system -r requirements.txt; fi
 
 # Copy entrypoint script
-COPY entrypoint.sh /entrypoint.sh
+COPY scripts/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
 # Default command
 ENTRYPOINT ["/entrypoint.sh"]
-CMD ["python", "banking_test.py"]
+CMD ["python", "tests/test_imports.py"]
